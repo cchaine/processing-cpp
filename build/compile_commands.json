@@ -1,0 +1,47 @@
+[
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/core/main.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/core/main.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/core/main.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/core/PCFunctions.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/core/PCFunctions.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/core/PCFunctions.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/core/PCQuad.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/core/PCQuad.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/core/PCQuad.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/core/PCTriangle.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/core/PCTriangle.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/core/PCTriangle.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/core/PCShape.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/core/PCShape.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/core/PCShape.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/core/PCShaderProgram.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/core/PCShaderProgram.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/core/PCShaderProgram.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/core/PCSketch.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/core/PCSketch.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/core/PCSketch.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/test/Sketch.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/test/Sketch.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/test/Sketch.cpp"
+},
+{
+  "directory": "/Users/cchaine/Documents/processing-cpp/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isystem /usr/local/include -I/Users/cchaine/Documents/processing-cpp/include/glm   -std=c++14  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk   -o CMakeFiles/sketch.o.dir/src/PImage.cpp.o -c /Users/cchaine/Documents/processing-cpp/src/PImage.cpp",
+  "file": "/Users/cchaine/Documents/processing-cpp/src/PImage.cpp"
+}
+]

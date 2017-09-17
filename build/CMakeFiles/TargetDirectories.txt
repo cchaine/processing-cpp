@@ -1,0 +1,3 @@
+/Users/cchaine/Documents/processing-cpp/build/CMakeFiles/rebuild_cache.dir
+/Users/cchaine/Documents/processing-cpp/build/CMakeFiles/edit_cache.dir
+/Users/cchaine/Documents/processing-cpp/build/CMakeFiles/sketch.o.dir
