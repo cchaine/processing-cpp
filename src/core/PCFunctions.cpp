@@ -55,9 +55,9 @@ void rect(int x, int y, int width, int height) {
     glBindVertexArray(0);
 }
 
-void triangle(float a1, float a2, float b1, float b2, float c1, float c2) {
+void triangle(float x1, float y1, float x2, float y2, float x3, float y3) {
     std::stringstream ss;
-    ss << a1 << a2 << b1 << b2 << c1 << c2;
+    ss << x1 << y1 << x2 << y2 << x3 << y3;
     std::string hash = ss.str();
 
     PCTriangle* triangle;
@@ -66,9 +66,9 @@ void triangle(float a1, float a2, float b1, float b2, float c1, float c2) {
     it = pcTriangles.find(hash);
     if(it == pcTriangles.end()){
         float vertices[] = {
-            a1, a2,
-            b1, b2,
-            c1, c2
+            x1, y1,
+            x2, y2,
+            x3, y3
         };
         for(int i = 0; i < 6; i++){
             std::cout << vertices[i] << std::endl;
@@ -228,4 +228,19 @@ void resetTranslation() {
 
 void resetRotation() {
     ROTATE = 0.0;
+}
+
+void lineWeight(int value) {
+    LINEWEIGHT = value;
+}
+
+void line(float x1, float y1, float x2, float y2) {
+    glm::mat4 model = glm::mat4();
+    model = glm::translate(model, glm::vec3(x1 + TRANSLATE.x, y + TRANSLATE.y, 0.0f));  
+    
+    //model = glm::translate(model, glm::vec3(-0.5f * width * RECTMODE, -0.5f * height * RECTMODE, 0.0f)); 
+    model = glm::rotate(model, -ROTATE + , glm::vec3(0.0f, 0.0f, 1.0f));
+    //model = glm::translate(model, glm::vec3(0.5f * width * RECTMODE, 0.5f * height * RECTMODE, 0.0f));
+
+    model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f)); 
 }
