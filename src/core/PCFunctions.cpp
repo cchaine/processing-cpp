@@ -235,12 +235,12 @@ void lineWeight(int value) {
 }
 
 void line(float x1, float y1, float x2, float y2) {
-    glm::mat4 model = glm::mat4();
-    model = glm::translate(model, glm::vec3(x1 + TRANSLATE.x, y + TRANSLATE.y, 0.0f));  
+    //glm::mat4 model = glm::mat4();
+    //model = glm::translate(model, glm::vec3(x1 + TRANSLATE.x, y + TRANSLATE.y, 0.0f));  
     
     //model = glm::translate(model, glm::vec3(-0.5f * width * RECTMODE, -0.5f * height * RECTMODE, 0.0f)); 
-    model = glm::rotate(model, -ROTATE + , glm::vec3(0.0f, 0.0f, 1.0f));
+    //model = glm::rotate(model, -ROTATE + , glm::vec3(0.0f, 0.0f, 1.0f));
     //model = glm::translate(model, glm::vec3(0.5f * width * RECTMODE, 0.5f * height * RECTMODE, 0.0f));
 
-    model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f)); 
+    //model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f)); 
 }
