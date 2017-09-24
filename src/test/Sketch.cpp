@@ -12,10 +12,9 @@ void Sketch::update() {
 
 void Sketch::render() {
     background(255, 255, 255);
-    fillColor(255, 0, 0);
+    fillColor(150, 150, 255);
     angleMode(DEGREES);
-    translate(WIDTH / 2, HEIGHT / 2);
-    rotate(map(MOUSEX, 0, WIDTH, 0, 180));
+    translate(MOUSEX, MOUSEY);
     triangle(0, 0, 50, 0, 25, 50);
 }
 
