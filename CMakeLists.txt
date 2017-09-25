@@ -35,7 +35,7 @@ src/PImage.cpp
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/include")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
-add_executable(sketch.o ${SRC})
+add_executable(sketch ${SRC})
 
 find_package(OpenGL)
 find_package(GLEW REQUIRED)
@@ -47,4 +47,4 @@ include_directories(${INCLUDE_DIRS})
 
 set(LIBS glfw ${GLEW_LIBRARIES} ${PNG_LIBRARIES} ${SOIL_LIBRARIES} ${OPENGL_LIBRARY})
 
-target_link_libraries(sketch.o ${LIBS})
+target_link_libraries(sketch ${LIBS})

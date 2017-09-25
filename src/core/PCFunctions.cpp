@@ -42,7 +42,8 @@ void rect(int x, int y, int width, int height) {
     }
     model = glm::translate(model, glm::vec3(0.5f * width * RECTMODE, 0.5f * height * RECTMODE, 0.0f));
 
-    model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f)); 
+    model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f));
+    model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
 
     pcShaderProgram->uniform4m("model", model);
 
@@ -87,6 +88,7 @@ void triangle(float x1, float y1, float x2, float y2, float x3, float y3) {
     }else{
         model = glm::rotate(model, float(-ROTATE * TWO_PI / 360.0), glm::vec3(0.0f, 0.0f, 1.0f));
     }
+    model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
 
     pcShaderProgram->uniform4m("model", model);
 
@@ -135,7 +137,8 @@ void image(PImage* texture, int x, int y, int width, int height) {
     }
     model = glm::translate(model, glm::vec3(0.5f * width * IMAGEMODE, 0.5f * height * IMAGEMODE, 0.0f));
 
-    model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f));  
+    model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f));
+    model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
 
     pcShaderProgram->uniform4m("model", model);
 
@@ -235,12 +238,30 @@ void lineWeight(int value) {
 }
 
 void line(float x1, float y1, float x2, float y2) {
-  //glm::mat4 model = glm::mat4();
-  //model = glm::translate(model, glm::vec3(x1 + TRANSLATE.x, y + TRANSLATE.y, 0.0f));  
-    
-  //model = glm::translate(model, glm::vec3(-0.5f * width * RECTMODE, -0.5f * height * RECTMODE, 0.0f)); 
-  //model = glm::rotate(model, -ROTATE + , glm::vec3(0.0f, 0.0f, 1.0f));
-  //model = glm::translate(model, glm::vec3(0.5f * width * RECTMODE, 0.5f * height * RECTMODE, 0.0f));
+  glm::mat4 model = glm::mat4();
+  model = glm::translate(model, glm::vec3(x1 + TRANSLATE.x, y1 + TRANSLATE.y, 0.0f));
 
-  //model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f)); 
+  glm::vec2 vect = glm::vec2(x2 - x1, y2 - y1);
+  glm::vec2 vectN = glm::normalize(vect);
+  glm::vec2 ex = glm::vec2(0, 1);
+  float angle = std::acos(glm::dot(vectN, ex));
+    
+  //model = glm::translate(model, glm::vec3(-0.5f * glm::length(vect), -0.5f * LINEWEIGHT, 0.0f));
+  
+  //model = glm::rotate(model, angle + -ROTATE , glm::vec3(0.0f, 0.0f, 1.0f));
+  
+  //model = glm::translate(model, glm::vec3(0.5f * glm::length(vect), 0.5f * LINEWEIGHT, 0.0f));
+
+  model = glm::scale(model, glm::vec3(glm::length(vect), LINEWEIGHT / 2, 1.0f));
+  model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
+
+  pcShaderProgram->uniform4m("model", model);
+
+  pcShaderProgram->uniform3f("fillColor", FILLCOLOR);
+  pcShaderProgram->uniform1i("isTex", 0);
+
+  pcShaderProgram->use();
+  glBindVertexArray(pcQuad->getVao());
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glBindVertexArray(0);
 }

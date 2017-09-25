@@ -132,8 +132,8 @@ int main() {
             view->update();
 
             glfwGetCursorPos(window, &MOUSEX, &MOUSEY);
-            MOUSEX *= 2;
-            MOUSEY = HEIGHT - MOUSEY * 2;
+            MOUSEX *= DPI;
+            MOUSEY = HEIGHT - MOUSEY * DPI;
             accumulator -= interval;
         }
 
