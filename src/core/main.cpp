@@ -20,7 +20,7 @@ GLFWwindow* window;
 
 PCSketch* view;
 
-int WIDTH = 800;
+int WIDTH = 600;
 int HEIGHT = 600;
 int DPI = 1;
 int RESX = WIDTH;

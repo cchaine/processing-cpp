@@ -267,3 +267,29 @@ void line(float x1, float y1, float x2, float y2) {
 
   popMatrix();
 }
+
+struct tm * getLocalTime() {
+  time_t epoch = time(0);
+  struct tm *localTime = localtime(&epoch);
+  return localTime;
+}
+
+int day() {
+  return getLocalTime()->tm_mday;
+}
+
+int hour() {
+  return getLocalTime()->tm_hour;
+}
+
+int minute() {
+  return getLocalTime()->tm_min;
+}
+
+int month() {
+  return getLocalTime()->tm_mon + 1;
+}
+
+int second() {
+  return getLocalTime()->tm_sec;
+}
