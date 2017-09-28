@@ -7,6 +7,7 @@ std::map<std::string, PCTriangle*> pcTriangles;
 PCSketch::PCSketch() {
     TRANSLATE_STACK = new std::vector<glm::vec2>();
     ROTATE_STACK = new std::vector<float>();
+    RECTMODE_STACK = new std::vector<int>();
 
     pcQuad = new PCQuad();
 

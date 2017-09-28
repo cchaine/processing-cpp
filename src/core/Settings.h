@@ -25,3 +25,4 @@ extern const int RADIANS;
 extern const int DEGREES;
 extern int ANGLEMODE;
 extern int LINEWEIGHT;
+extern std::vector<int> * RECTMODE_STACK;

@@ -47,6 +47,7 @@ const int RADIANS = 0;
 const int DEGREES = 1;
 int ANGLEMODE = 0;
 int LINEWEIGHT = 1;
+std::vector<int> * RECTMODE_STACK; 
 
 void init() {
     srand(time(NULL));

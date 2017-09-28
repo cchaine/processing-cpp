@@ -101,11 +101,11 @@ void triangle(float x1, float y1, float x2, float y2, float x3, float y3) {
     glBindVertexArray(0);
 }
 
-void fillColor(int value) {
-    fillColor(value, value, value);
+void fill(int value) {
+    fill(value, value, value);
 }
 
-void fillColor(int r, int g, int b) {
+void fill(int r, int g, int b) {
     FILLCOLOR = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
 }
 
@@ -195,6 +195,7 @@ void pushMatrix() {
     if(TRANSLATE_STACK->size() <= 30){
         TRANSLATE_STACK->push_back(TRANSLATE);
         ROTATE_STACK->push_back(ROTATE);
+	RECTMODE_STACK->push_back(RECTMODE);
     }else{
         std::cout << "pushMatrix() can't be called more than 30 times.\nYou may have forgotten to popMatrix()" << std::endl;
         exit(-1);
@@ -204,6 +205,7 @@ void pushMatrix() {
 void resetMatrix() {
     TRANSLATE = glm::vec2(0.0, 0.0);
     ROTATE = 0;
+    RECTMODE = CORNER;
 }
 
 void popMatrix() {
@@ -211,6 +213,8 @@ void popMatrix() {
     TRANSLATE_STACK->pop_back();
     ROTATE = ROTATE_STACK->back();
     ROTATE_STACK->pop_back();
+    RECTMODE = RECTMODE_STACK->back();
+    RECTMODE_STACK->pop_back();
 }
 
 void translate(float x, float y) {
@@ -238,30 +242,28 @@ void lineWeight(int value) {
 }
 
 void line(float x1, float y1, float x2, float y2) {
-  glm::mat4 model = glm::mat4();
-  model = glm::translate(model, glm::vec3(x1 + TRANSLATE.x, y1 + TRANSLATE.y, 0.0f));
-
+  pushMatrix();
+  rectMode(CORNER);
+  
   glm::vec2 vect = glm::vec2(x2 - x1, y2 - y1);
   glm::vec2 vectN = glm::normalize(vect);
   glm::vec2 ex = glm::vec2(0, 1);
-  float angle = std::acos(glm::dot(vectN, ex));
-    
-  //model = glm::translate(model, glm::vec3(-0.5f * glm::length(vect), -0.5f * LINEWEIGHT, 0.0f));
+
+  float angle = acos(glm::dot(vectN, ex));
+  if(ANGLEMODE == DEGREES){
+    angle *= 180/PI;
+  }
+
+  float length = glm::length(vect);
   
-  //model = glm::rotate(model, angle + -ROTATE , glm::vec3(0.0f, 0.0f, 1.0f));
-  
-  //model = glm::translate(model, glm::vec3(0.5f * glm::length(vect), 0.5f * LINEWEIGHT, 0.0f));
+  translate(x1, y1);
+  if(vect.x < 0){
+    rotate(-angle+ 90*ANGLEMODE + PI/2*(1-ANGLEMODE));
+    length *= -1;
+   }else{
+    rotate(angle - 90*ANGLEMODE - PI/2*(1-ANGLEMODE));
+   }
+  rect(0, 0, length, LINEWEIGHT);
 
-  model = glm::scale(model, glm::vec3(glm::length(vect), LINEWEIGHT / 2, 1.0f));
-  model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
-
-  pcShaderProgram->uniform4m("model", model);
-
-  pcShaderProgram->uniform3f("fillColor", FILLCOLOR);
-  pcShaderProgram->uniform1i("isTex", 0);
-
-  pcShaderProgram->use();
-  glBindVertexArray(pcQuad->getVao());
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-  glBindVertexArray(0);
+  popMatrix();
 }
