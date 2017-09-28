@@ -21,8 +21,6 @@ PCSketch::~PCSketch() {
     RECTMODE = CORNER;
     IMAGEMODE = CORNER;
     FILLCOLOR = glm::vec3(0.0, 0.0, 0.0);
-    NOLOOP = false;
-    LOOPING = true;
     delete(TRANSLATE_STACK);
     TRANSLATE_STACK = 0;
     delete(ROTATE_STACK);

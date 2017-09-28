@@ -33,10 +33,8 @@ const int CORNER = 1;
 int RECTMODE = CORNER;
 int IMAGEMODE = CORNER;
 glm::vec3 FILLCOLOR = glm::vec3(0.0, 0.0, 0.0);
-bool NOLOOP = false;
 const short PREFERRED_WIDTH = 0;
 const short PREFERRED_HEIGHT = 1;
-bool LOOPING = true;
 glm::vec2 TRANSLATE = glm::vec2(0.0, 0.0);
 float ROTATE = 0;
 std::vector<glm::vec2> * TRANSLATE_STACK;
@@ -102,7 +100,7 @@ int main() {
     glGenTextures(1, &framebufferTex);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, framebufferTex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, RESX*DPI, RESY*DPI, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, RESX, RESY, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -137,34 +135,29 @@ int main() {
             MOUSEY = HEIGHT - MOUSEY * DPI;
             accumulator -= interval;
         }
-
-        if(LOOPING){
-            glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-            glViewport(0, 0, RESX*DPI, RESY*DPI);
-            glClear(GL_COLOR_BUFFER_BIT);
-            view->render();
-            RECTMODE = CORNER;
-            IMAGEMODE = CORNER;
-            FILLCOLOR = glm::vec3(0.0, 0.0, 0.0);
-            TRANSLATE = glm::vec2(0.0, 0.0);
-            ROTATE = 0;
-            
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glViewport(0, 0, WIDTH, HEIGHT);
-            glClearColor(1.0, 1.0, 1.0, 1.0);
-            glClear(GL_COLOR_BUFFER_BIT);
-            framebufferProgram->use();
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, framebufferTex);
-            glBindVertexArray(framebufferQuad->getVao());
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            glBindVertexArray(0);
-        
-            glfwSwapBuffers(window);
-        }
-        if(NOLOOP){
-            LOOPING = false;
-        }
+      
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        glViewport(0, 0, RESX, RESY);
+        glClear(GL_COLOR_BUFFER_BIT);
+        view->render();
+        RECTMODE = CORNER;
+        IMAGEMODE = CORNER;
+        FILLCOLOR = glm::vec3(0.0, 0.0, 0.0);
+        TRANSLATE = glm::vec2(0.0, 0.0);
+        ROTATE = 0;
+      
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, WIDTH, HEIGHT);
+        glClearColor(1.0, 1.0, 1.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        framebufferProgram->use();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, framebufferTex);
+        glBindVertexArray(framebufferQuad->getVao());
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+    
+        glfwSwapBuffers(window);
         glfwPollEvents();
 
         double supposedTime = previousTime + (1.0 / float(TARGET_FPS));

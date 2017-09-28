@@ -13,10 +13,6 @@ void frameRate(int value) {
     }
 }
 
-void noLoop() {
-    NOLOOP = true;
-}
-
 void background(int r, int g, int b) {
     glClearColor(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -43,7 +39,6 @@ void rect(int x, int y, int width, int height) {
     model = glm::translate(model, glm::vec3(0.5f * width * RECTMODE, 0.5f * height * RECTMODE, 0.0f));
 
     model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f));
-    model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
 
     pcShaderProgram->uniform4m("model", model);
 
@@ -88,7 +83,6 @@ void triangle(float x1, float y1, float x2, float y2, float x3, float y3) {
     }else{
         model = glm::rotate(model, float(-ROTATE * TWO_PI / 360.0), glm::vec3(0.0f, 0.0f, 1.0f));
     }
-    model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
 
     pcShaderProgram->uniform4m("model", model);
 
@@ -138,7 +132,6 @@ void image(PImage* texture, int x, int y, int width, int height) {
     model = glm::translate(model, glm::vec3(0.5f * width * IMAGEMODE, 0.5f * height * IMAGEMODE, 0.0f));
 
     model = glm::scale(model, glm::vec3(width / 2, height / 2, 1.0f));
-    model = glm::scale(model, glm::vec3(DPI, DPI, 1.0f));
 
     pcShaderProgram->uniform4m("model", model);
 
