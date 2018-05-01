@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/sketch.h
+iostream
+-
+
+/Users/cchaine/Desktop/processing-cpp/src/sketch.cpp
+sketch.h
+/Users/cchaine/Desktop/processing-cpp/src/sketch.h
+

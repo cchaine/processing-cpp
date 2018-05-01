@@ -1,0 +1,2 @@
+/usr/local/lib/libprocessing-cpp.a
+/usr/local/include/sketch.h
