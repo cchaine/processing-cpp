@@ -6,9 +6,9 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <cmath>
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
-
 
 class Sketch {
 public:
@@ -19,9 +19,21 @@ public:
     virtual void draw(){};
 
     virtual void background(int r, int g, int b) final;
-private:
+    virtual void background(int c) final;
+    virtual void frameRate(int framerate) final;
+
+    // Input
+    virtual void keyEvent(int key, int action){};
+    int key;
+    bool keyPressed = 0;
+    int PRESSED = 1;
+    int RELEASED = 0;
+
+protected:
     int width, height;
     GLFWwindow * window;
+    int target_fps = 60;
+    int fps = 0;
 };
 
 #endif
