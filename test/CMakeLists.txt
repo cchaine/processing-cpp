@@ -4,6 +4,7 @@ project(processing-cpp-test)
 set(SRC src/main.cpp
         src/customSketch.cpp)
 
-include_directories(include /usr/local/include)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+include_directories(include /usr/local/include/processing-cpp)
 add_executable(processing-cpp-test ${SRC})
 target_link_libraries(processing-cpp-test "/usr/local/lib/libprocessing-cpp.dylib")

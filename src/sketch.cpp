@@ -57,6 +57,13 @@ void Sketch::run() {
         0, 2, 3
     };
 
+    float colors[] = {
+        1.0f, 0.5f, 0.5,
+        0.5f, 1.0f, 0.5f,
+        0.5f, 0.5f, 1.0f,
+        1.0f, 1.0f, 0.5f
+    };
+
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -68,6 +75,13 @@ void Sketch::run() {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
+    GLuint cbo;
+    glGenBuffers(1, &cbo);
+    glBindBuffer(GL_ARRAY_BUFFER, cbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
     GLuint ibo;
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -76,7 +90,8 @@ void Sketch::run() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    char * vertexCode = "#version 330 core\nlayout (location = 0) in vec2 in_pos;\n\nvoid main() {\ngl_Position = vec4(in_pos, 0.0, 1.0);\n}\n";
+    std::string vertexCodeStr = load("/usr/local/include/processing-cpp/vertex.vert");
+    const char* vertexCode = vertexCodeStr.c_str();
     GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertexCode, NULL);
     glCompileShader(vertex);
@@ -88,7 +103,8 @@ void Sketch::run() {
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
-    char * fragmentCode = "#version 330 core\nout vec4 color;\n\nvoid main() {\ncolor = vec4(1.0, 0.5, 0.5, 1.0);\n}\n";
+    std::string fragmentCodeStr = load("/usr/local/include/processing-cpp/fragment.frag");
+    const char* fragmentCode = fragmentCodeStr.c_str();
     GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fragmentCode, NULL);
     glCompileShader(fragment);
@@ -146,4 +162,20 @@ void Sketch::background(int c) {
 
 void Sketch::frameRate(int framerate) {
     this->target_fps = framerate;
+}
+
+std::string load(std::string path) {
+    std::string content;
+    std::ifstream fileStream(path, std::ios::in);
+    if(!fileStream.is_open()) {
+        std::cerr << "ERROR::FILELOADER::FILE DOESN'T EXIST" << std::endl;
+        exit(-1);
+    }
+    std::string line = "";
+    while(!fileStream.eof()) {
+        getline(fileStream, line);
+        content.append(line + "\n");
+    }
+    fileStream.close();
+    return content;
 }

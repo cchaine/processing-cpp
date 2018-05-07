@@ -19,4 +19,4 @@ include_directories(${INCLUDE_DIRS})
 target_link_libraries(processing-cpp ${LIBRARIES})
 
 install(TARGETS processing-cpp DESTINATION "lib")
-install(FILES "include/sketch.h" DESTINATION "include")
+install(FILES "include/sketch.h" "include/vertex.vert" "include/fragment.frag" DESTINATION "include/processing-cpp")
