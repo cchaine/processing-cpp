@@ -1,10 +1,14 @@
 #include "sketch.h"
 
+//Used for the key_callback
 Sketch * thisPtr = nullptr;
 Sketch::Sketch(int width, int height){
-    this->width = width;
-    this->height = height;
+    this->WIDTH = width;
+    this->HEIGHT = height;
     thisPtr = this;
+}
+
+Sketch::~Sketch() {
 }
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode){
@@ -24,15 +28,15 @@ void Sketch::run() {
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    this->window = glfwCreateWindow(this->width, this->height, "processing-cpp", nullptr, nullptr);
-    glfwMakeContextCurrent(window);
-    glfwSetKeyCallback(window, key_callback);
+    this->window = glfwCreateWindow(this->WIDTH, this->HEIGHT, "processing-cpp", nullptr, nullptr);
+    glfwMakeContextCurrent(this->window);
+    glfwSetKeyCallback(this->window, key_callback);
 
     glewExperimental = GL_TRUE;
     glewInit();
     
     int widthW, heightW;
-    glfwGetFramebufferSize(window, &widthW, &heightW);
+    glfwGetFramebufferSize(this->window, &widthW, &heightW);
     glViewport(0, 0, widthW, heightW);
     
     // call of the setup fct
@@ -90,51 +94,33 @@ void Sketch::run() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    std::string vertexCodeStr = load("/usr/local/include/processing-cpp/vertex.vert");
-    const char* vertexCode = vertexCodeStr.c_str();
-    GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vertexCode, NULL);
-    glCompileShader(vertex);
-    GLint success;
-    GLchar infoLog[512];
-    glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-    if(!success) {
-        glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
+    Program * program = new Program("/usr/local/include/processing-cpp/vertex.vert", "/usr/local/include/processing-cpp/fragment.frag");
 
-    std::string fragmentCodeStr = load("/usr/local/include/processing-cpp/fragment.frag");
-    const char* fragmentCode = fragmentCodeStr.c_str();
-    GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fragmentCode, NULL);
-    glCompileShader(fragment);
-    glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-    if(!success) {
-        glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-    
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertex);
-    glAttachShader(program, fragment);
-    glLinkProgram(program);
-    glDeleteShader(vertex);
-    glDeleteShader(fragment);
-
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(this->window)) {
         this->draw();
 
-        glUseProgram(program);
+        program->bind();
+
+        program->uniform3f("fillColor", this->FILLCOLOR);
+        glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(WIDTH), 0.0f, static_cast<GLfloat>(HEIGHT), -1.0f, 1.0f);
+        glm::mat4 model = glm::mat4();
+        model = glm::translate(model, glm::vec3(400, 300, 0));
+        model = glm::rotate(model, 0.0f, glm::vec3(0, 0, 1));
+        model = glm::scale(model, glm::vec3(150, 150, 1));
+
+        program->uniform4m("projection", projection);
+        program->uniform4m("model", model);
+
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-        glUseProgram(0);
+        program->unbind();
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(this->window);
         glfwPollEvents();
 
         // framerate regulation
-        while(glfwGetTime() - previousTime < interval && !glfwWindowShouldClose(window)) { 
+        while(glfwGetTime() - previousTime < interval && !glfwWindowShouldClose(this->window)) { 
             glfwPollEvents();
         }
         previousTime = glfwGetTime();
@@ -142,7 +128,7 @@ void Sketch::run() {
         // fps count
         frameCount++;
         if(glfwGetTime() - previousCount > 1.0) {
-            this->fps = frameCount;
+            this->FRAMERATE = frameCount;
             previousCount = glfwGetTime();
             frameCount = 0;
         }
@@ -160,22 +146,10 @@ void Sketch::background(int c) {
     background(c, c, c);
 }
 
-void Sketch::frameRate(int framerate) {
-    this->target_fps = framerate;
+void Sketch::frameRate(int frameRate) {
+    this->target_fps = frameRate;
 }
 
-std::string load(std::string path) {
-    std::string content;
-    std::ifstream fileStream(path, std::ios::in);
-    if(!fileStream.is_open()) {
-        std::cerr << "ERROR::FILELOADER::FILE DOESN'T EXIST" << std::endl;
-        exit(-1);
-    }
-    std::string line = "";
-    while(!fileStream.eof()) {
-        getline(fileStream, line);
-        content.append(line + "\n");
-    }
-    fileStream.close();
-    return content;
+void Sketch::fill(int r, int g, int b) {
+    this->FILLCOLOR = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
 }

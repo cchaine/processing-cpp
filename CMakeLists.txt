@@ -3,7 +3,8 @@ project(processing-cpp)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake-modules")
 
-set(SRC src/sketch.cpp)
+set(SRC src/sketch.cpp
+        src/program.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
 add_library(processing-cpp SHARED ${SRC})
@@ -19,4 +20,4 @@ include_directories(${INCLUDE_DIRS})
 target_link_libraries(processing-cpp ${LIBRARIES})
 
 install(TARGETS processing-cpp DESTINATION "lib")
-install(FILES "include/sketch.h" "include/vertex.vert" "include/fragment.frag" DESTINATION "include/processing-cpp")
+install(FILES "include/sketch.h" "include/program.h" "include/vertex.vert" "include/fragment.frag" DESTINATION "include/processing-cpp")
