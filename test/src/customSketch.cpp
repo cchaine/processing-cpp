@@ -8,8 +8,9 @@ void CustomSketch::setup() {
 }
 
 void CustomSketch::draw() {
-    background(50);
-    fill(255, 155, 155);
+    background(255);
+    fill(0, 0, 0);
+    rect(100, 100, 50,50);
 }
 
 void CustomSketch::keyEvent(int key, int action) {

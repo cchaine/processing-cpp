@@ -57,6 +57,12 @@ void Program::uniform4m(GLchar * uniformVariable, glm::mat4 value) {
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 }
 
+void Program::uniform1i(GLchar * uniformVariable, int value) {
+    this->bind();
+    GLint uniformLocation = glGetUniformLocation(this->id, uniformVariable);
+    glUniform1i(uniformLocation, value);
+}
+
 std::string load(std::string path) {
     std::string content;
     std::ifstream fileStream(path, std::ios::in);

@@ -21,6 +21,7 @@ class Program {
 
         void uniform3f(GLchar * uniformVariable, glm::vec3 value);
         void uniform4m(GLchar * uniformVariable, glm::mat4 value);
+        void uniform1i(GLchar * uniformVariable, int value);
     private:
         GLuint id;
 };

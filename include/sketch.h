@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "program.h"
+#include "quad.h"
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
 
@@ -25,14 +26,11 @@ public:
     virtual void background(int r, int g, int b) final;
     virtual void background(int c) final;
     virtual void frameRate(int frameRate) final;
+    virtual void noLoop() final;
     virtual void fill(int r, int g, int b) final;
-
-    // Input
-    virtual void keyEvent(int key, int action){};
-    int key;
-    bool keyPressed = 0;
-    int PRESSED = 1;
-    int RELEASED = 0;
+    virtual void rect(int x, int y, int width, int height);
+    virtual void point(int x, int y);
+    virtual void strokeWeight(int value) final;
 
 protected:
     int WIDTH, HEIGHT;
@@ -41,7 +39,12 @@ protected:
 private:
     GLFWwindow * window;
     int target_fps = 60;
-    glm::vec3 FILLCOLOR;
+    glm::vec3 FILLCOLOR = glm::vec3(1.0f, 1.0f, 1.0f);
+    Program * rectProgram;
+    Program * pointProgram;
+    Quad * quad;
+    int STROKEWEIGHT = 3;
+    GLuint pointVao;
 };
 
 #endif
