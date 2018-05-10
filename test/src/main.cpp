@@ -2,7 +2,7 @@
 #include "customSketch.h"
 
 int main() {
-    CustomSketch *  s = new CustomSketch(800, 600);
+    CustomSketch *  s = new CustomSketch();
     s->run();
     delete(s);
 }

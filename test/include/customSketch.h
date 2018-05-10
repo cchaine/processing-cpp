@@ -5,7 +5,7 @@
 
 class CustomSketch : public Sketch {
 public:
-    CustomSketch(int width, int height);
+    CustomSketch();
     void setup();
     void draw();
     void keyEvent(int key, int action);

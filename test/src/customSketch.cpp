@@ -1,7 +1,7 @@
 #include "customSketch.h"
 
-CustomSketch::CustomSketch(int width, int height) : Sketch(width, height) {
-
+CustomSketch::CustomSketch() : Sketch() {
+    size(800, 600);
 }
 
 void CustomSketch::setup() {
@@ -9,8 +9,9 @@ void CustomSketch::setup() {
 
 void CustomSketch::draw() {
     background(255);
-    fill(0, 0, 0);
-    rect(100, 100, 50,50);
+    for(int i = 0; i < 10000; i++) {
+        point(rand() % WIDTH, rand() % HEIGHT);
+    }
 }
 
 void CustomSketch::keyEvent(int key, int action) {

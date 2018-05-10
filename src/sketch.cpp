@@ -1,9 +1,6 @@
 #include "sketch.h"
 
-Sketch::Sketch(int width, int height){
-    this->WIDTH = width;
-    this->HEIGHT = height;
-
+Sketch::Sketch(){
     // rand init
     srand(time(NULL));
 }
@@ -136,4 +133,13 @@ void Sketch::point(int x, int y) {
 
 void Sketch::strokeWeight(int value) {
     this->STROKEWEIGHT = value;
+}
+
+void Sketch::size(int width, int height) {
+    if(this->window == nullptr) {
+        this->WIDTH = width;
+        this->HEIGHT = height;
+    }else{
+        std::cerr << "ERROR::SKETCH::SIZE SHOULD BE CALLED FROM THE SKETCH CONSTRUCTOR" << std::endl;
+    }
 }

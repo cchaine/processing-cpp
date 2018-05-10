@@ -16,7 +16,7 @@ void key_callback(GLFWwindow * window, int key, int scancode, int action, int mo
 
 class Sketch {
 public:
-    Sketch(int width, int height);
+    Sketch();
     ~Sketch();
     virtual void run() final;
 
@@ -31,18 +31,20 @@ public:
     virtual void rect(int x, int y, int width, int height);
     virtual void point(int x, int y);
     virtual void strokeWeight(int value) final;
+    virtual void size(int width, int height) final;
 
 protected:
-    int WIDTH, HEIGHT;
+    int WIDTH = 100;
+    int HEIGHT = 100;
     int FRAMERATE = 0;
 
 private:
-    GLFWwindow * window;
+    GLFWwindow * window = nullptr;
     int target_fps = 60;
     glm::vec3 FILLCOLOR = glm::vec3(1.0f, 1.0f, 1.0f);
-    Program * rectProgram;
-    Program * pointProgram;
-    Quad * quad;
+    Program * rectProgram = nullptr;
+    Program * pointProgram = nullptr;
+    Quad * quad = nullptr;
     int STROKEWEIGHT = 3;
     GLuint pointVao;
 };
