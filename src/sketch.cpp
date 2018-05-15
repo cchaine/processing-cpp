@@ -33,20 +33,14 @@ void Sketch::run() {
     int widthW, heightW;
     glfwGetFramebufferSize(this->window, &widthW, &heightW);
     glViewport(0, 0, widthW, heightW);
-    
-    // framerate regulation init
-    float interval = 1.0 / this->target_fps;
-    float previousTime = glfwGetTime();
-    // fps count init
-    float previousCount = glfwGetTime();
-    int frameCount = 0;
 
     // setup
     quad = new Quad();
+    circle = new Circle();
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(WIDTH), 0.0f, static_cast<GLfloat>(HEIGHT), -1.0f, 1.0f);
     // rect setup
-    rectProgram = new Program("/usr/local/include/processing-cpp/rect.vert", "/usr/local/include/processing-cpp/rect.frag");
-    rectProgram->uniform4m("projection", projection);
+    program = new Program("/usr/local/include/processing-cpp/main.vert", "/usr/local/include/processing-cpp/main.frag");
+    program->uniform4m("projection", projection);
     // point setup
     pointProgram = new Program("/usr/local/include/processing-cpp/point.vert", "/usr/local/include/processing-cpp/point.frag");
     pointProgram->uniform4m("projection", projection);
@@ -54,6 +48,13 @@ void Sketch::run() {
     glGenVertexArrays(1, &pointVao);
 
     this->setup();
+    
+    // framerate regulation init
+    float interval = 1.0 / this->target_fps;
+    float previousTime = glfwGetTime();
+    // fps count init
+    float previousCount = glfwGetTime();
+    int frameCount = 0;
 
     while (!glfwWindowShouldClose(this->window)) {
         
@@ -98,19 +99,19 @@ void Sketch::fill(int r, int g, int b) {
 }
 
 void Sketch::rect(int x, int y, int width, int height) { 
-    rectProgram->bind();
-    rectProgram->uniform3f("fillColor", this->FILLCOLOR);
+    program->bind();
+    program->uniform3f("fillColor", this->FILLCOLOR);
 
     glm::mat4 model = glm::mat4();
     model = glm::translate(model, glm::vec3(x, y, 0));
     model = glm::rotate(model, 0.0f, glm::vec3(0, 0, 1));
     model = glm::scale(model, glm::vec3(width/2, height/2, 1));
-    rectProgram->uniform4m("model", model);
+    program->uniform4m("model", model);
 
     glBindVertexArray(quad->getVao());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-    rectProgram->unbind();
+    program->unbind();
 }
 
 void Sketch::noLoop() {
@@ -142,4 +143,20 @@ void Sketch::size(int width, int height) {
     }else{
         std::cerr << "ERROR::SKETCH::SIZE SHOULD BE CALLED FROM THE SKETCH CONSTRUCTOR" << std::endl;
     }
+}
+
+void Sketch::ellipse(int x, int y, int width, int height) {
+    program->bind();
+    program->uniform3f("fillColor", this->FILLCOLOR);
+
+    glm::mat4 model = glm::mat4();
+    model = glm::translate(model, glm::vec3(x, y, 0));
+    model = glm::rotate(model, 0.0f, glm::vec3(0, 0, 1));
+    model = glm::scale(model, glm::vec3(width / 2, height / 2, 1));
+    program->uniform4m("model", model);
+
+    glBindVertexArray(circle->getVao());
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 362);
+    glBindVertexArray(0);
+    program->unbind();
 }
