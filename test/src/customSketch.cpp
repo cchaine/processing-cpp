@@ -7,8 +7,12 @@ CustomSketch::CustomSketch() : Sketch() {
 void CustomSketch::setup() {
 }
 
+int r = 0;
 void CustomSketch::draw() {
-    background(255);
+    background(50);
+    fill(255, 155 + 40*sin(float(r) / 10.0), 155);
+    ellipse(MOUSEX, MOUSEY, 100 + 50*sin(float(r) / 10.0), 100 + 50*sin(float(r) / 10.0));
+    r++;
 }
 
 void CustomSketch::keyEvent(int key, int action) {

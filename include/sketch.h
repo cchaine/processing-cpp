@@ -39,6 +39,8 @@ protected:
     int WIDTH = 100;
     int HEIGHT = 100;
     int FRAMERATE = 0;
+    double MOUSEX = 0;
+    double MOUSEY = 0;
 
 private:
     GLFWwindow * window = nullptr;

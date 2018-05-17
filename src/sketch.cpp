@@ -33,7 +33,7 @@ void Sketch::run() {
     int widthW, heightW;
     glfwGetFramebufferSize(this->window, &widthW, &heightW);
     glViewport(0, 0, widthW, heightW);
-
+    
     // setup
     quad = new Quad();
     circle = new Circle();
@@ -57,6 +57,8 @@ void Sketch::run() {
     int frameCount = 0;
 
     while (!glfwWindowShouldClose(this->window)) {
+        glfwGetCursorPos(window, &MOUSEX, &MOUSEY);
+        MOUSEY = HEIGHT - MOUSEY;
         
         this->draw();
         
