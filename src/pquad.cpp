@@ -1,6 +1,6 @@
-#include "quad.h"
+#include "pquad.h"
 
-Quad::Quad() {
+PQuad::PQuad() {
     float vertices[] = {
         1.0f, 1.0f,
         -1.0f, 1.0f,
@@ -32,11 +32,11 @@ Quad::Quad() {
     glBindVertexArray(0);
 }
 
-Quad::~Quad() {
+PQuad::~PQuad() {
 
 }
 
-GLuint Quad::getVao() {
+GLuint PQuad::getVao() {
     return vao;
 }
 

@@ -1,9 +1,9 @@
 #ifndef CUSTOMSKETCH_H
 #define CUSTOMSKETCH_H
 
-#include "sketch.h"
+#include "psketch.h"
 
-class CustomSketch : public Sketch {
+class CustomSketch : public PSketch {
 public:
     CustomSketch();
     void setup();

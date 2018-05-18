@@ -1,6 +1,6 @@
 #include "customSketch.h"
 
-CustomSketch::CustomSketch() : Sketch() {
+CustomSketch::CustomSketch() : PSketch() {
     size(800, 600);
 }
 

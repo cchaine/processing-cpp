@@ -167,4 +167,4 @@ noiseSeed()::0f|185
 random()::0f|186
 randomGaussian()::0f|187
 randomSeed()::0f|188
-PI constants::0f|189
+PI constants::0i|189

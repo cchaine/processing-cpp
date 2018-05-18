@@ -1,5 +1,5 @@
-#ifndef PROGRAM_H
-#define PROGRAM_H
+#ifndef PSHADER_H
+#define PSHADER_H
 
 #include <iostream>
 #include <fstream>
@@ -11,10 +11,10 @@
 
 std::string load(std::string path);
 
-class Program {
+class PShader {
     public:
-        Program(std::string vertexPath, std::string fragmentPath);
-        ~Program();
+        PShader(std::string vertexPath, std::string fragmentPath);
+        ~PShader();
 
         void bind();
         void unbind();

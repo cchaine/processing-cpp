@@ -1,5 +1,5 @@
-#ifndef SKETCH_H
-#define SKETCH_H
+#ifndef PSKETCH_H
+#define PSKETCH_H
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -9,16 +9,16 @@
 #include <cmath>
 #include <iostream>
 
-#include "program.h"
-#include "quad.h"
-#include "circle.h"
+#include "pshader.h"
+#include "pquad.h"
+#include "pcircle.h"
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
 
-class Sketch {
+class PSketch {
 public:
-    Sketch();
-    ~Sketch();
+    PSketch();
+    ~PSketch();
     virtual void run() final;
 
     virtual void setup(){};
@@ -46,10 +46,10 @@ private:
     GLFWwindow * window = nullptr;
     int target_fps = 60;
     glm::vec3 FILLCOLOR = glm::vec3(1.0f, 1.0f, 1.0f);
-    Program * program = nullptr;
-    Program * pointProgram = nullptr;
-    Quad * quad = nullptr;
-    Circle * circle = nullptr;
+    PShader * shader = nullptr;
+    PShader * pointShader = nullptr;
+    PQuad * quad = nullptr;
+    PCircle * circle = nullptr;
     int STROKEWEIGHT = 3;
     GLuint pointVao;
 };

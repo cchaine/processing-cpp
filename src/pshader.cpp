@@ -1,6 +1,6 @@
-#include "program.h"
+#include "pshader.h"
 
-Program::Program(std::string vertexPath, std::string fragmentPath) {
+PShader::PShader(std::string vertexPath, std::string fragmentPath) {
     std::string vertexCodeStr = load(vertexPath);
     const char* vertexCode = vertexCodeStr.c_str();
     GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -33,31 +33,31 @@ Program::Program(std::string vertexPath, std::string fragmentPath) {
     glDeleteShader(fragment);
 }
 
-Program::~Program() {
+PShader::~PShader() {
 
 }
 
-void Program::bind() {
+void PShader::bind() {
     glUseProgram(this->id);
 }
 
-void Program::unbind() {
+void PShader::unbind() {
     glUseProgram(0);
 }
 
-void Program::uniform3f(GLchar * uniformVariable, glm::vec3 value) {
+void PShader::uniform3f(GLchar * uniformVariable, glm::vec3 value) {
     this->bind();
     GLint uniformLocation = glGetUniformLocation(this->id, uniformVariable);
     glUniform3f(uniformLocation, value.x, value.y, value.z);
 }
 
-void Program::uniform4m(GLchar * uniformVariable, glm::mat4 value) {
+void PShader::uniform4m(GLchar * uniformVariable, glm::mat4 value) {
     this->bind();
     GLint uniformLocation = glGetUniformLocation(this->id, uniformVariable);
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void Program::uniform1i(GLchar * uniformVariable, int value) {
+void PShader::uniform1i(GLchar * uniformVariable, int value) {
     this->bind();
     GLint uniformLocation = glGetUniformLocation(this->id, uniformVariable);
     glUniform1i(uniformLocation, value);

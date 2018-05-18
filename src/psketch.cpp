@@ -1,17 +1,17 @@
-#include "sketch.h"
+#include "psketch.h"
 
-Sketch::Sketch(){
+PSketch::PSketch(){
     // rand init
     srand(time(NULL));
 }
 
-Sketch::~Sketch() {
+PSketch::~PSketch() {
 }
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode){
 }
 
-void Sketch::run() {
+void PSketch::run() {
     if(!glfwInit()) {
         exit(-1);
     }
@@ -35,15 +35,15 @@ void Sketch::run() {
     glViewport(0, 0, widthW, heightW);
     
     // setup
-    quad = new Quad();
-    circle = new Circle();
+    quad = new PQuad();
+    circle = new PCircle();
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(WIDTH), 0.0f, static_cast<GLfloat>(HEIGHT), -1.0f, 1.0f);
     // rect setup
-    program = new Program("/usr/local/include/processing-cpp/main.vert", "/usr/local/include/processing-cpp/main.frag");
-    program->uniform4m("projection", projection);
+    shader = new PShader("/usr/local/include/processing-cpp/main.vert", "/usr/local/include/processing-cpp/main.frag");
+    shader->uniform4m("projection", projection);
     // point setup
-    pointProgram = new Program("/usr/local/include/processing-cpp/point.vert", "/usr/local/include/processing-cpp/point.frag");
-    pointProgram->uniform4m("projection", projection);
+    pointShader = new PShader("/usr/local/include/processing-cpp/point.vert", "/usr/local/include/processing-cpp/point.frag");
+    pointShader->uniform4m("projection", projection);
     // gen the vao for the point render
     glGenVertexArrays(1, &pointVao);
 
@@ -83,62 +83,62 @@ void Sketch::run() {
     glfwTerminate();
 }
 
-void Sketch::background(int r, int g, int b) {
+void PSketch::background(int r, int g, int b) {
     glClearColor(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Sketch::background(int c) {
+void PSketch::background(int c) {
     background(c, c, c);
 }
 
-void Sketch::frameRate(int frameRate) {
+void PSketch::frameRate(int frameRate) {
     this->target_fps = frameRate;
 }
 
-void Sketch::fill(int r, int g, int b) {
+void PSketch::fill(int r, int g, int b) {
     this->FILLCOLOR = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
 }
 
-void Sketch::rect(int x, int y, int width, int height) { 
-    program->bind();
-    program->uniform3f("fillColor", this->FILLCOLOR);
+void PSketch::rect(int x, int y, int width, int height) { 
+    shader->bind();
+    shader->uniform3f("fillColor", this->FILLCOLOR);
 
     glm::mat4 model = glm::mat4();
     model = glm::translate(model, glm::vec3(x, y, 0));
     model = glm::rotate(model, 0.0f, glm::vec3(0, 0, 1));
     model = glm::scale(model, glm::vec3(width/2, height/2, 1));
-    program->uniform4m("model", model);
+    shader->uniform4m("model", model);
 
     glBindVertexArray(quad->getVao());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-    program->unbind();
+    shader->unbind();
 }
 
-void Sketch::noLoop() {
+void PSketch::noLoop() {
     frameRate(0);
 }
 
-void Sketch::point(int x, int y) {
-    pointProgram->uniform1i("strokeWeight", this->STROKEWEIGHT);
+void PSketch::point(int x, int y) {
+    pointShader->uniform1i("strokeWeight", this->STROKEWEIGHT);
    
     glm::mat4 model = glm::mat4();
     model = glm::translate(model, glm::vec3(x, y, 0));
-    pointProgram->uniform4m("model", model);
+    pointShader->uniform4m("model", model);
     
-    pointProgram->bind();
+    pointShader->bind();
     glBindVertexArray(pointVao);
     glDrawArrays(GL_POINTS, 0, 1);
     glBindVertexArray(0);
-    pointProgram->unbind();
+    pointShader->unbind();
 }
 
-void Sketch::strokeWeight(int value) {
+void PSketch::strokeWeight(int value) {
     this->STROKEWEIGHT = value;
 }
 
-void Sketch::size(int width, int height) {
+void PSketch::size(int width, int height) {
     if(this->window == nullptr) {
         this->WIDTH = width;
         this->HEIGHT = height;
@@ -147,18 +147,18 @@ void Sketch::size(int width, int height) {
     }
 }
 
-void Sketch::ellipse(int x, int y, int width, int height) {
-    program->bind();
-    program->uniform3f("fillColor", this->FILLCOLOR);
+void PSketch::ellipse(int x, int y, int width, int height) {
+    shader->bind();
+    shader->uniform3f("fillColor", this->FILLCOLOR);
 
     glm::mat4 model = glm::mat4();
     model = glm::translate(model, glm::vec3(x, y, 0));
     model = glm::rotate(model, 0.0f, glm::vec3(0, 0, 1));
     model = glm::scale(model, glm::vec3(width / 2, height / 2, 1));
-    program->uniform4m("model", model);
+    shader->uniform4m("model", model);
 
     glBindVertexArray(circle->getVao());
     glDrawArrays(GL_TRIANGLE_FAN, 0, 362);
     glBindVertexArray(0);
-    program->unbind();
+    shader->unbind();
 }

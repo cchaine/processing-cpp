@@ -1,6 +1,6 @@
-#include "circle.h"
+#include "pcircle.h"
 
-Circle::Circle() {
+PCircle::PCircle() {
     float vertices[2*res+2];
     vertices[0] = 0.0f;
     vertices[1] = 0.0f;
@@ -22,11 +22,11 @@ Circle::Circle() {
     glBindVertexArray(0);
 }
 
-Circle::~Circle() {
+PCircle::~PCircle() {
 
 }
 
-GLuint Circle::getVao() {
+GLuint PCircle::getVao() {
     return vao;
 }
 

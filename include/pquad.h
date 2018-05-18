@@ -1,5 +1,5 @@
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#ifndef PQUAD_H
+#define PQUAD_H
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -7,14 +7,13 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-class Circle {
+class PQuad {
 public:
-    Circle();
-    ~Circle();
+    PQuad();
+    ~PQuad();
     GLuint getVao();
 private:
     GLuint vao;
-    int res = 360;
 };
 
 #endif
