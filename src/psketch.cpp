@@ -100,6 +100,10 @@ void PSketch::fill(int r, int g, int b) {
     this->FILLCOLOR = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
 }
 
+void PSketch::fill(int c) {
+    fill(c, c, c);
+}
+
 void PSketch::rect(int x, int y, int width, int height) { 
     shader->bind();
     shader->uniform3f("fillColor", this->FILLCOLOR);

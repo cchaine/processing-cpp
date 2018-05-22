@@ -5,6 +5,8 @@ CustomSketch::CustomSketch() : PSketch() {
 }
 
 void CustomSketch::setup() {
+    std::cout << binary(27, 32) << std::endl;
+    std::cout << hex(27, 32) << std::endl;
 }
 
 int r = 0;

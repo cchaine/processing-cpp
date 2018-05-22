@@ -6,12 +6,12 @@
 #include <GLFW/glfw3.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include <cmath>
 #include <iostream>
 
 #include "pshader.h"
 #include "pquad.h"
 #include "pcircle.h"
+#include "putils.h"
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
 
@@ -29,6 +29,7 @@ public:
     virtual void frameRate(int frameRate) final;
     virtual void noLoop() final;
     virtual void fill(int r, int g, int b) final;
+    virtual void fill(int c) final;
     virtual void rect(int x, int y, int width, int height);
     virtual void point(int x, int y);
     virtual void strokeWeight(int value) final;

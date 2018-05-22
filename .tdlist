@@ -1,4 +1,4 @@
-tdlist|190
+tdlist|191
 popStyle()::0f|1
 pushStyle()::0f|2
 redraw()::0f|3
@@ -9,16 +9,15 @@ height::1f|11
 noCursor()::0f|12
 size()::1f|18
 width::1f|20
-binary()::0f|21
-boolean()::0f|22
-byte()::0f|23
-char()::0f|24
-float()::0f|25
-hex()::0f|26
-int()::0f|27
-str()::0f|28
-unbinary()::0f|29
-unhex()::0f|30
+binary()::1f|21
+boolean()::1i|22
+char()::1i|24
+float()::1i|25
+hex()::0i|26
+int()::0i|27
+str()::0i|28
+unbinary()::0i|29
+unhex()::0i|30
 join()::0f|31
 split()::0f|38
 splitTokens()::0f|39
@@ -86,7 +85,7 @@ background()::1f|103
 clear()::0f|104
 colorMode()::0f|105
 fill()::1f|106
-allow fill(int)::0i|107
+allow fill(int)::1i|107
 noFill()::0f|108
 noStroke()::0f|109
 stroke()::0f|110
@@ -167,4 +166,5 @@ noiseSeed()::0f|185
 random()::0f|186
 randomGaussian()::0f|187
 randomSeed()::0f|188
-PI constants::0i|189
+PI constants::1i|189
+print()::0i|190
