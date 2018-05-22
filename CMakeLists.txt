@@ -1,50 +1,26 @@
 cmake_minimum_required(VERSION 3.0)
 project(processing-cpp)
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake-modules")
 
-set(SRC src/core/main.cpp
-src/core/PCFunctions.h
-src/core/PCFunctions.cpp
-
-src/core/PCQuad.h
-src/core/PCQuad.cpp
-
-src/core/PCTriangle.h
-src/core/PCTriangle.cpp
-
-src/core/PCShape.h
-src/core/PCShape.cpp
-
-src/core/PCShaderProgram.h
-src/core/PCShaderProgram.cpp
-
-src/core/PCSketch.h
-src/core/PCSketch.cpp
-
-src/test/Sketch.h
-src/test/Sketch.cpp
-
-src/core/Settings.h
-
-src/core/shader.frag
-src/core/shader.vert
-
-src/PImage.h
-src/PImage.cpp
-)
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/include")
+set(SRC src/psketch.cpp
+        src/pshader.cpp
+        src/pquad.cpp
+        src/pcircle.cpp
+        src/putils.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
-add_executable(sketch ${SRC})
+add_library(processing-cpp SHARED ${SRC})
 
 find_package(OpenGL)
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(SOIL REQUIRED)
+set(INCLUDE_DIRS ${GLEW_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS} ${SOIL_INCLUDE_LIBS} ${OPENGL_INCLUDE_DIRS} "include")
+set(LIBRARIES glfw ${GLEW_LIBRARIES} ${PNG_LIBRARIES} ${SOIL_LIBRARIES} ${OPENGL_LIBRARY})
 
-set(INCLUDE_DIRS ${GLEW_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS} ${SOIL_INCLUDE_LIBS} ${OPENGL_INCLUDE_DIRS})
 include_directories(${INCLUDE_DIRS})
+target_link_libraries(processing-cpp ${LIBRARIES})
 
-set(LIBS glfw ${GLEW_LIBRARIES} ${PNG_LIBRARIES} ${SOIL_LIBRARIES} ${OPENGL_LIBRARY})
-
-target_link_libraries(sketch ${LIBS})
+install(TARGETS processing-cpp DESTINATION "lib")
+install(FILES "include/putils.h" "include/psketch.h" "include/pcircle.h" "include/shaders/point.frag" "include/shaders/point.vert" "include/pquad.h" "include/pshader.h" "include/shaders/main.vert" "include/shaders/main.frag" DESTINATION "include/processing-cpp")
