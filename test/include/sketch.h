@@ -1,11 +1,11 @@
-#ifndef CUSTOMSKETCH_H
-#define CUSTOMSKETCH_H
+#ifndef SKETCH_H
+#define SKETCH_H
 
 #include "psketch.h"
 
-class CustomSketch : public PSketch {
+class Sketch : public PSketch {
 public:
-    CustomSketch();
+    Sketch();
     void setup();
     void draw();
     void keyEvent(int key, int action);

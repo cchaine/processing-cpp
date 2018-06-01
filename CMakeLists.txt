@@ -6,8 +6,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake-modules")
 set(SRC src/psketch.cpp
         src/pshader.cpp
         src/pquad.cpp
-        src/pcircle.cpp
-        src/putils.cpp)
+        src/pcircle.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
 add_library(processing-cpp SHARED ${SRC})
@@ -23,4 +22,4 @@ include_directories(${INCLUDE_DIRS})
 target_link_libraries(processing-cpp ${LIBRARIES})
 
 install(TARGETS processing-cpp DESTINATION "lib")
-install(FILES "include/putils.h" "include/psketch.h" "include/pcircle.h" "include/shaders/point.frag" "include/shaders/point.vert" "include/pquad.h" "include/pshader.h" "include/shaders/main.vert" "include/shaders/main.frag" DESTINATION "include/processing-cpp")
+install(FILES "include/psketch.h" "include/pcircle.h" "include/shaders/point.frag" "include/shaders/point.vert" "include/pquad.h" "include/pshader.h" "include/shaders/main.vert" "include/shaders/main.frag" DESTINATION "include/processing-cpp")

@@ -1,8 +1,8 @@
 #include <iostream>
-#include "customSketch.h"
+#include "sketch.h"
 
 int main() {
-    CustomSketch *  s = new CustomSketch();
+    Sketch *  s = new Sketch();
     s->run();
     delete(s);
 }
