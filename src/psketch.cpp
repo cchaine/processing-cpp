@@ -67,19 +67,13 @@ void PSketch::run() {
         this->draw();
 
         //Reset matrix
-        if(TRANSLATE_STACK.size() != 0) {
+        if(transformations_stack.size() != 0) {
             std::cerr << "ERROR::SKETCH::A MATRIX WAS NOT POPED AT THE END OF THE DRAW FUNCTION" << std::endl;
             exit(-1);
         }
 
-        this->TRANSLATE.x = 0;
-        this->TRANSLATE.y = 0;
-        this->ROTATE = 0;
-        this->SCALE.x = 1;
-        this->SCALE.y = 1;
-        this->TRANSLATE_STACK.clear();
-        this->ROTATE_STACK.clear();
-        this->SCALE_STACK.clear();
+        this->transformations = PTransformations();
+        this->transformations_stack.clear();
         
         glfwSwapBuffers(this->window);
         glfwPollEvents();
@@ -121,9 +115,9 @@ void PSketch::frameRate(int frameRate) {
 void PSketch::fill(int r, int g, int b) {
     if(COLORMODE == HSB) {
         glm::vec3 hsb = HSBtoRGB(r, g, b);
-        this->FILLCOLOR = glm::vec3(float(hsb.r) / 255.0, float(hsb.g) / 255.0, float(hsb.b) / 255.0);
+        this->style.fillColor = glm::vec3(float(hsb.r) / 255.0, float(hsb.g) / 255.0, float(hsb.b) / 255.0);
     } else {
-        this->FILLCOLOR = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
+        this->style.fillColor = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
     }
 }
 
@@ -138,7 +132,7 @@ void PSketch::fill(int c) {
 
 void PSketch::rect(int x, int y, int width, int height) { 
     shader->bind();
-    shader->uniform3f((char*)"fillColor", this->FILLCOLOR);
+    shader->uniform3f((char*)"fillColor", this->style.fillColor);
 
     glm::mat4 model = genModelMat(x + RECTMODE*(width / 2), y - RECTMODE*(width / 2), width, height);
     shader->uniform4m((char*)"model", model);
@@ -154,8 +148,8 @@ void PSketch::noLoop() {
 }
 
 void PSketch::point(int x, int y) {
-    pointShader->uniform1i((char*)"strokeWeight", this->STROKEWEIGHT);
-    pointShader->uniform3f((char*)"stroke", this->STROKE);
+    pointShader->uniform1i((char*)"strokeWeight", this->style.strokeWeight);
+    pointShader->uniform3f((char*)"stroke", this->style.stroke);
    
     glm::mat4 model = genModelMat(x, y, 0, 0);
     pointShader->uniform4m((char*)"model", model);
@@ -168,7 +162,7 @@ void PSketch::point(int x, int y) {
 }
 
 void PSketch::strokeWeight(int value) {
-    this->STROKEWEIGHT = value;
+    this->style.strokeWeight = value;
 }
 
 void PSketch::size(int width, int height) {
@@ -183,7 +177,7 @@ void PSketch::size(int width, int height) {
 
 void PSketch::ellipse(int x, int y, int width, int height) {
     shader->bind();
-    shader->uniform3f((char*)"fillColor", this->FILLCOLOR);
+    shader->uniform3f((char*)"fillColor", this->style.fillColor);
 
     glm::mat4 model = genModelMat(x + ELLIPSEMODE*(width / 2), y - ELLIPSEMODE*(height / 2), width, height);
     shader->uniform4m((char*)"model", model);
@@ -195,17 +189,17 @@ void PSketch::ellipse(int x, int y, int width, int height) {
 }
 
 void PSketch::translate(float x, float y) {
-    this->TRANSLATE.x += x;
-    this->TRANSLATE.y += y;
+    this->transformations.translate.x += x;
+    this->transformations.translate.y += y;
 }
 
 void PSketch::rotate(float angle) {
-    this->ROTATE += angle;
+    this->transformations.rotate += angle;
 }
 
 void PSketch::scale(float xRate, float yRate) {
-    this->SCALE.x += xRate;
-    this->SCALE.y += yRate;
+    this->transformations.scale.x += xRate;
+    this->transformations.scale.y += yRate;
 }
 
 void PSketch::scale(float rate) {
@@ -214,29 +208,23 @@ void PSketch::scale(float rate) {
 
 glm::mat4 PSketch::genModelMat(int x, int y, int width, int height) {
     glm::mat4 model = glm::mat4();
-    model = glm::translate(model, glm::vec3(x + TRANSLATE.x, y + TRANSLATE.y, 0));
-    model = glm::rotate(model, ROTATE, glm::vec3(0, 0, 1));
-    model = glm::scale(model, glm::vec3((width / 2) * SCALE.x, (height / 2) * SCALE.y, 1));
+    model = glm::translate(model, glm::vec3(x + transformations.translate.x, y + transformations.translate.y, 0));
+    model = glm::rotate(model, transformations.rotate, glm::vec3(0, 0, 1));
+    model = glm::scale(model, glm::vec3((width / 2) * transformations.scale.x, (height / 2) * transformations.scale.y, 1));
     return model;
 }
 
 void PSketch::pushMatrix() {
-    TRANSLATE_STACK.push_back(TRANSLATE);
-    ROTATE_STACK.push_back(ROTATE);
-    SCALE_STACK.push_back(SCALE);
+    transformations_stack.push_back(transformations);
 }
 
 void PSketch::popMatrix() {
-    if(TRANSLATE_STACK.size() == 0) {
+    if(transformations_stack.size() == 0) {
         std::cerr << "ERROR::SKETCH::PUSHMATRIX SHOULD BE CALLED BEFORE POPMATRIX" << std::endl;
         exit(-1);
     }
-    TRANSLATE = TRANSLATE_STACK.back();
-    TRANSLATE_STACK.pop_back();
-    ROTATE = ROTATE_STACK.back();
-    ROTATE_STACK.pop_back();
-    SCALE = SCALE_STACK.back();
-    SCALE_STACK.pop_back();
+    transformations = transformations_stack.back();
+    transformations_stack.pop_back();
 }
 
 void PSketch::ellipseMode(int mode) {
@@ -257,7 +245,7 @@ void PSketch::rectMode(int mode) {
     }
 }
 
-void PSketch::colorMode(int mode) {
+void PSketch::colorMode(ColorMode mode) {
     if(mode == HSB || mode == RGB) {
         this->COLORMODE = mode;
     } else {
@@ -293,9 +281,9 @@ glm::vec3 PSketch::HSBtoRGB(int h, int s, int b) {
 void PSketch::stroke(int r, int g, int b) {
     if(COLORMODE == HSB) {
         glm::vec3 hsb = HSBtoRGB(r, g, b);
-        this->STROKE = glm::vec3(float(hsb.r) / 255.0, float(hsb.g) / 255.0, float(hsb.b) / 255.0);
+        this->style.stroke = glm::vec3(float(hsb.r) / 255.0, float(hsb.g) / 255.0, float(hsb.b) / 255.0);
     } else {
-        this->STROKE = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
+        this->style.stroke = glm::vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0);
     }
 }
 
@@ -309,4 +297,35 @@ void PSketch::cursor() {
 
 void PSketch::redraw() {
     needRedraw = true;
+}
+
+void PSketch::strokeCap(LineMode kind) {
+    if(kind == ROUND || kind == SQUARE) {
+        this->style.strokeCap = kind;
+    } else {
+        std::cerr << "ERROR::SKETCH::THIS IS NOT A VALID STROKECAP" << std::endl;
+        exit(-1);
+    }
+}
+
+void PSketch::strokeJoin(LineMode kind) {
+    if(kind == ROUND || kind == MILTER || kind == BEVEL) {
+        this->style.strokeJoin = kind;
+    } else {
+        std::cerr << "ERROR::SKETCH::THIS IS NOT A VALID STROKEJOIN" << std::endl;
+        exit(-1);
+    }
+}
+
+void PSketch::pushStyle() {
+    style_stack.push_back(style);
+}
+
+void PSketch::popStyle() {
+    if(style_stack.size() == 0) {
+        std::cerr << "ERROR::SKETCH::PUSHSTYLE SHOULD BE CALLED BEFORE POPSTYLE" << std::endl;
+        exit(-1);
+    }
+    style = style_stack.back();
+    style_stack.pop_back();
 }

@@ -1,6 +1,6 @@
-tdlist|191
-popStyle()::0f|1
-pushStyle()::0f|2
+tdlist|192
+popStyle()::1f|1
+pushStyle()::1f|2
 redraw()::1f|3
 cursor()::1f|4
 frameRate()::1f|8
@@ -22,10 +22,9 @@ rect()::1f|55
 triangle()::0f|56
 ellipseMode()::1f|65
 rectMode()::1f|66
-strokeCap()::0f|67
-strokeJoin()::0f|68
+strokeCap()::1f|67
+strokeJoin()::1f|68
 strokeWeight()::1f|69
-beginShape()::0f|71
 endShape()::0f|75
 vertex()::0f|77
 shape()::0f|78
@@ -50,3 +49,4 @@ noiseSeed()::0f|185
 random()::0f|186
 randomGaussian()::0f|187
 randomSeed()::0f|188
+beginShape()::0f|191

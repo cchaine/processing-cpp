@@ -15,6 +15,23 @@
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
 
+enum ColorMode { RGB, HSB };
+enum LineMode { ROUND, BEVEL, MILTER, SQUARE };
+
+struct PTransformations {
+    glm::vec2 translate = glm::vec2(0.0f, 0.0f);
+    float rotate = 0.0f;
+    glm::vec2 scale = glm::vec2(1.0f, 1.0f);
+};
+
+struct PStyle {
+    glm::vec3 fillColor = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 stroke = glm::vec3(1.0f, 1.0f, 1.0f);
+    int strokeWeight = 1;
+    LineMode strokeCap = ROUND;
+    LineMode strokeJoin = MILTER;
+};
+
 class PSketch {
 public:
     PSketch();
@@ -43,12 +60,16 @@ public:
     virtual void popMatrix() final;
     virtual void rectMode(int mode) final;
     virtual void ellipseMode(int mode) final;
-    virtual void colorMode(int mode) final;
+    virtual void colorMode(ColorMode mode) final;
     virtual void stroke(int r, int g, int b) final;
     virtual void noCursor() final;
     virtual void cursor() final;
     virtual void redraw() final;
     virtual void keyEvent(int key, int action) {};
+    virtual void strokeCap(LineMode kind) final;
+    virtual void strokeJoin(LineMode kind) final;
+    virtual void pushStyle() final;
+    virtual void popStyle() final;
 
 protected:
     int WIDTH = 100;
@@ -58,8 +79,6 @@ protected:
     double MOUSEY = 0;
     const int CENTER = 0;
     const int CORNER = 1;
-    const int RGB = 0;
-    const int HSB = 1;
 
 private:
     GLFWwindow * window = nullptr;
@@ -69,23 +88,18 @@ private:
     PQuad * quad = nullptr;
     PCircle * circle = nullptr;
     GLuint pointVao;
-    std::vector<glm::vec2> TRANSLATE_STACK = std::vector<glm::vec2>();
-    std::vector<float> ROTATE_STACK = std::vector<float>();
-    std::vector<glm::vec2> SCALE_STACK = std::vector<glm::vec2>();
+    std::vector<PTransformations> transformations_stack = std::vector<PTransformations>();
+    std::vector<PStyle> style_stack = std::vector<PStyle>();
     bool needRedraw = false;
 
     glm::mat4 genModelMat(int x, int y, int width, int height);
     glm::vec3 HSBtoRGB(int h, int s, int b);
 
-    glm::vec3 FILLCOLOR = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec2 TRANSLATE = glm::vec2(0.0f, 0.0f);
-    float ROTATE = 0.0f;
-    glm::vec2 SCALE = glm::vec2(1.0f, 1.0f);
-    int STROKEWEIGHT = 3;
-    glm::vec3 STROKE = glm::vec3(1.0f, 1.0f, 1.0f);
+    PStyle style;
+    PTransformations transformations;
     int RECTMODE = 1;
     int ELLIPSEMODE = 0;
-    int COLORMODE = 0;
+    ColorMode COLORMODE = RGB;
 };
 
 #endif
