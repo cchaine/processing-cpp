@@ -12,6 +12,7 @@ PShader::PShader(std::string vertexPath, std::string fragmentPath) {
     if(!success) {
         glGetShaderInfoLog(vertex, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        exit(-1);
     }
 
     std::string fragmentCodeStr = load(fragmentPath);
@@ -23,6 +24,7 @@ PShader::PShader(std::string vertexPath, std::string fragmentPath) {
     if(!success) {
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        exit(-1);
     }
     
     this->id = glCreateProgram();
@@ -77,4 +79,10 @@ std::string load(std::string path) {
     }
     fileStream.close();
     return content;
+}
+
+void PShader::uniform1f(GLchar * uniformVariable, float value) {
+    this->bind();
+    GLint uniformLocation = glGetUniformLocation(this->id, uniformVariable);
+    glUniform1f(uniformLocation, value);
 }

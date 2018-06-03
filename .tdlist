@@ -1,4 +1,4 @@
-tdlist|192
+tdlist|202
 popStyle()::1f|1
 pushStyle()::1f|2
 redraw()::1f|3
@@ -15,7 +15,7 @@ loadShape()::0f|48
 PShape type::0f|49
 arc()::0f|50
 ellipse()::1f|51
-line()::0f|52
+line()::1f|52
 point()::1f|53
 quad()::0f|54
 rect()::1f|55
@@ -50,3 +50,13 @@ random()::0f|186
 randomGaussian()::0f|187
 randomSeed()::0f|188
 beginShape()::0f|191
+createImage()::0f|192
+PImage::0f|193
+image()::0f|194
+imageMode()::0f|195
+loadImage()::0f|196
+requestImage()::0f|197
+texture()::0f|198
+textureMode()::0f|199
+textureWrap()::0f|200
+text::0f|201

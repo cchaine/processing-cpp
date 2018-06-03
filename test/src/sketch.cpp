@@ -5,20 +5,13 @@ Sketch::Sketch() : PSketch() {
 }
 
 void Sketch::setup() {
+    //noLoop();
 }
 
 void Sketch::draw() {
     background(50);
-    rectMode(CENTER);
-    pushMatrix();
-    pushStyle();
-    fill(255, 155, 155);
-    rotate(45);
-    translate(50, 50);
-    rect(MOUSEX, MOUSEY, 50, 50);
-    popStyle();
-    popMatrix();
-    rect(MOUSEX, MOUSEY, 50, 50);
+    stroke(155, 155, 255);
+    line(WIDTH / 2, HEIGHT / 2, MOUSEX, MOUSEY);
 }
 
 void Sketch::keyEvent(int key, int action) {

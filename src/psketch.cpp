@@ -39,15 +39,21 @@ void PSketch::run() {
     glViewport(0, 0, widthW, heightW);
     
     // setup
-    quad = new PQuad();
-    circle = new PCircle();
+    
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(WIDTH), 0.0f, static_cast<GLfloat>(HEIGHT), -1.0f, 1.0f);
     // rect setup
     shader = new PShader("/usr/local/include/processing-cpp/main.vert", "/usr/local/include/processing-cpp/main.frag");
     shader->uniform4m((char*)"projection", projection);
+    quadObj = new PQuad();
+    circleObj = new PCircle();
     // point setup
     pointShader = new PShader("/usr/local/include/processing-cpp/point.vert", "/usr/local/include/processing-cpp/point.frag");
     pointShader->uniform4m((char*)"projection", projection);
+    // line setup
+    lineShader = new PShader("/usr/local/include/processing-cpp/line.vert", "/usr/local/include/processing-cpp/line.frag");
+    lineShader->uniform4m((char*)"projection", projection);
+    lineObj = new PLine();
+    
     // gen the vao for the point render
     glGenVertexArrays(1, &pointVao);
 
@@ -137,7 +143,7 @@ void PSketch::rect(int x, int y, int width, int height) {
     glm::mat4 model = genModelMat(x + RECTMODE*(width / 2), y - RECTMODE*(width / 2), width, height);
     shader->uniform4m((char*)"model", model);
 
-    glBindVertexArray(quad->getVao());
+    glBindVertexArray(quadObj->getVao());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
     shader->unbind();
@@ -163,6 +169,9 @@ void PSketch::point(int x, int y) {
 
 void PSketch::strokeWeight(int value) {
     this->style.strokeWeight = value;
+    if(value > 120) {
+        this->style.strokeWeight = 120;
+    }
 }
 
 void PSketch::size(int width, int height) {
@@ -182,7 +191,7 @@ void PSketch::ellipse(int x, int y, int width, int height) {
     glm::mat4 model = genModelMat(x + ELLIPSEMODE*(width / 2), y - ELLIPSEMODE*(height / 2), width, height);
     shader->uniform4m((char*)"model", model);
 
-    glBindVertexArray(circle->getVao());
+    glBindVertexArray(circleObj->getVao());
     glDrawArrays(GL_TRIANGLE_FAN, 0, 362);
     glBindVertexArray(0);
     shader->unbind();
@@ -328,4 +337,30 @@ void PSketch::popStyle() {
     }
     style = style_stack.back();
     style_stack.pop_back();
+}
+
+void PSketch::line(int x1, int y1, int x2, int y2) {
+    float dist = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2)) / 2;
+    float angle = atan2(y2-y1, x2 - x1);
+   
+    glm::mat4 model = glm::mat4();
+    model = glm::translate(model, glm::vec3(x1, y1, 0.0));
+    model = glm::rotate(model, angle, glm::vec3(0.0, 0.0, 1.0));
+    model = glm::translate(model, glm::vec3(dist, 0.0, 0.0));
+    model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::scale(model, glm::vec3(dist, float(style.strokeWeight) / 2.0, 0.0f));
+    lineShader->uniform4m((char*)"model", model);
+
+    lineShader->uniform3f((char*)"stroke", style.stroke);
+
+    lineShader->bind();
+    glBindVertexArray(lineObj->getVao());
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+    lineShader->unbind();
+    
+    if(style.strokeCap == ROUND) {
+        point(x1, y1);
+        point(x2, y2);
+    }
 }

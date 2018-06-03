@@ -12,6 +12,7 @@
 #include "pshader.h"
 #include "pquad.h"
 #include "pcircle.h"
+#include "pline.h"
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
 
@@ -70,6 +71,7 @@ public:
     virtual void strokeJoin(LineMode kind) final;
     virtual void pushStyle() final;
     virtual void popStyle() final;
+    virtual void line(int x1, int y1, int x2, int y2) final;
 
 protected:
     int WIDTH = 100;
@@ -85,8 +87,10 @@ private:
     int target_fps = 60;
     PShader * shader = nullptr;
     PShader * pointShader = nullptr;
-    PQuad * quad = nullptr;
-    PCircle * circle = nullptr;
+    PShader * lineShader = nullptr;
+    PQuad * quadObj = nullptr;
+    PCircle * circleObj = nullptr;
+    PLine * lineObj = nullptr;
     GLuint pointVao;
     std::vector<PTransformations> transformations_stack = std::vector<PTransformations>();
     std::vector<PStyle> style_stack = std::vector<PStyle>();
