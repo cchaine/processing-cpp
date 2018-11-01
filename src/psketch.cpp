@@ -45,6 +45,7 @@ void PSketch::run() {
     shader = new PShader("/usr/local/include/processing-cpp/main.vert", "/usr/local/include/processing-cpp/main.frag");
     shader->uniform4m((char*)"projection", projection);
     quadObj = new PQuad();
+    
     circleObj = new PCircle();
     // point setup
     pointShader = new PShader("/usr/local/include/processing-cpp/point.vert", "/usr/local/include/processing-cpp/point.frag");
@@ -68,6 +69,7 @@ void PSketch::run() {
 
     while (!glfwWindowShouldClose(this->window)) {
         glfwGetCursorPos(window, &MOUSEX, &MOUSEY);
+        // reverts the mouseY axis
         MOUSEY = HEIGHT - MOUSEY;
         
         this->draw();
@@ -77,7 +79,8 @@ void PSketch::run() {
             std::cerr << "ERROR::SKETCH::A MATRIX WAS NOT POPED AT THE END OF THE DRAW FUNCTION" << std::endl;
             exit(-1);
         }
-
+		
+		// resets the transformation
         this->transformations = PTransformations();
         this->transformations_stack.clear();
         
@@ -216,7 +219,7 @@ void PSketch::scale(float rate) {
 }
 
 glm::mat4 PSketch::genModelMat(int x, int y, int width, int height) {
-    glm::mat4 model = glm::mat4();
+    glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(x + transformations.translate.x, y + transformations.translate.y, 0));
     model = glm::rotate(model, transformations.rotate, glm::vec3(0, 0, 1));
     model = glm::scale(model, glm::vec3((width / 2) * transformations.scale.x, (height / 2) * transformations.scale.y, 1));
@@ -363,4 +366,17 @@ void PSketch::line(int x1, int y1, int x2, int y2) {
         point(x1, y1);
         point(x2, y2);
     }
+}
+
+float PSketch::map(float value, float start1, float stop1, float start2, float stop2) {
+	if(start1 <= value && value <= stop1) {
+		return (stop2 - start2) / (stop1 - start1) * value;	
+	} else {
+        std::cerr << "ERROR::MAP::VALUE BOUNDARIES ARE NOT CORRECT" << std::endl;
+        exit(-1);
+	}
+}
+
+float PSketch::radians(float degree) {
+	return degree * M_PI / 180.0;
 }

@@ -1,4 +1,4 @@
-tdlist|202
+tdlist|203
 popStyle()::1f|1
 pushStyle()::1f|2
 redraw()::1f|3
@@ -60,3 +60,4 @@ texture()::0f|198
 textureMode()::0f|199
 textureWrap()::0f|200
 text::0f|201
+map::0f|202

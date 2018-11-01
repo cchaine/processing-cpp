@@ -36,7 +36,7 @@ PQuad::~PQuad() {
 
 }
 
-GLuint PQuad::getVao() {
+GLuint PQuad::getVao() {
     return vao;
 }
 

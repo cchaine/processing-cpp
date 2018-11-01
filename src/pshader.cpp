@@ -86,3 +86,7 @@ void PShader::uniform1f(GLchar * uniformVariable, float value) {
     GLint uniformLocation = glGetUniformLocation(this->id, uniformVariable);
     glUniform1f(uniformLocation, value);
 }
+
+GLuint PShader::getID() {
+	return this->id;	
+}

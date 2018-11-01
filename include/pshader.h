@@ -18,6 +18,7 @@ class PShader {
 
         void bind();
         void unbind();
+        GLuint getID();
 
         void uniform3f(GLchar * uniformVariable, glm::vec3 value);
         void uniform4m(GLchar * uniformVariable, glm::mat4 value);

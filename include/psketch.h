@@ -2,12 +2,15 @@
 #define PSKETCH_H
 
 #define GLEW_STATIC
+#define GLM_ENABLE_EXPERIMENTAL
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "glm/glm.hpp"
+#include <glm/gtx/string_cast.hpp>
 #include "glm/gtc/matrix_transform.hpp"
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "pshader.h"
 #include "pquad.h"
@@ -72,6 +75,8 @@ public:
     virtual void pushStyle() final;
     virtual void popStyle() final;
     virtual void line(int x1, int y1, int x2, int y2) final;
+    virtual float map(float value, float start1, float stop1, float start2, float stop2) final;
+    virtual float radians(float degree) final;
 
 protected:
     int WIDTH = 100;
